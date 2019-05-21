@@ -8,21 +8,23 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { FlightSearchComponent } from './flight-search/flight-search.component';
+import { FlightSearchComponent } from './flight-booking/flight-search/flight-search.component';
+import { SharedModule } from './shared/shared.module';
+import { FlightBookingModule } from './flight-booking/flight-booking.module';
 
 @NgModule({
   imports: [
     BrowserModule,
     HttpClientModule,
-    FormsModule,
-    AppRoutingModule
+    FlightBookingModule,
+    AppRoutingModule,
+    SharedModule
   ],
   declarations: [
     AppComponent,
     SidebarComponent,
     NavbarComponent,
-    HomeComponent,
-    FlightSearchComponent
+    HomeComponent
   ],
   providers: [],
   bootstrap: [AppComponent]
