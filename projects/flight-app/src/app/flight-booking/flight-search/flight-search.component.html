@@ -3,74 +3,61 @@
   <div class="header">
     <h2 class="title">Flight Search</h2>
   </div>
-
   <div class="content">
 
     <form>
+
       <div class="form-group">
         <label>From:</label>
-        <input
-          name="from"
-          class="form-control"
-          [(ngModel)]="from">
+        <input [(ngModel)]="from" name="from" class="form-control">
       </div>
-
       <div class="form-group">
         <label>To:</label>
-        <input
-          name="to"
-          class="form-control"
-          [(ngModel)]="to">
+        <input [(ngModel)]="to" name="to" class="form-control">
+      </div>
+      <div class="form-group">
+        <label>
+          <input [(ngModel)]="urgent" name="urgent" type="checkbox">
+          Urgent (When it's urgent it fails -- like in real life ;-))
+
+        </label>
       </div>
 
       <div class="form-group">
-        <button
-          class="btn btn-default"
-          [disabled]="!from || !to"
-          (click)="search()">
-        Search</button>
+        <button (click)="search()" [disabled]="!from || !to"
+          class="btn btn-default">
+          Search
+        </button>
+
+        <button *ngIf="flights.length > 0" class="btn btn-default"
+          (click)="delay()">
+          Delay 1st Flight
+        </button>
+
+        <div *ngIf="flights.length > 0">
+          {{flights.length}} flights found!
+        </div>
+
       </div>
     </form>
 
   </div>
-
 </div>
 
-<div
-  class="card"
-  *ngIf="flights.length">
+<div class="row">
+  <div *ngFor="let f of flights">
 
-  <table class="table table-contensed">
-    <thead>
-      <tr>
-        <th>Id</th>
-        <th>From</th>
-        <th>To</th>
-        <th>Date</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tr
-      *ngFor="let flight of flights"
-      [class.active]="flight === selectedFlight">
-      <td>{{ flight.id }}</td>
-      <td>{{ flight.from }}</td>
-      <td>{{ flight.to }}</td>
-      <td>{{ flight.date | date:'dd.MM.yyyy HH:mm' }}</td>
-      <td>
-        <a (click)="select(flight)">Select</a> 
-      </td>
-    </tr>
-  </table>
-
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <flight-card
+        [item]="f"
+        [(selected)]="basket[f.id]">
+      </flight-card>
+    </div>
+  </div>
 </div>
 
-<div
-  class="card"
-  *ngIf="selectedFlight">
+<div class="card">
   <div class="content">
-    <pre>{{
-      selectedFlight | json
-    }}</pre>
+    <pre>{{ basket | json }}</pre>
   </div>
 </div>

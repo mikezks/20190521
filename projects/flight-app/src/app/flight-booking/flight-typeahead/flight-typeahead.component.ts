@@ -23,8 +23,8 @@ import {
   map
 } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
-import { Flight } from '../../entities/flight';
 import { HttpHeaders, HttpParams, HttpClient } from '@angular/common/http';
+import { Flight } from '@flight-workspace/flight-api';
 
 @Component({
   selector: 'app-flight-typeahead',
