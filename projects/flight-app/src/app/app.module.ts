@@ -18,6 +18,12 @@ import { SidebarComponent } from "./sidebar/sidebar.component";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { CustomCheckboxModule } from "./shared/custom-checkbox/custom-checkbox.module";
 import { TabsModule } from "./shared/tabs/tabs.module";
+import { StoreModule } from '@ngrx/store';
+import { reducers, metaReducers } from './+state';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
+import { EffectsModule } from "@ngrx/effects";
+import { AppEffects } from "./+state/effects/app.effects";
 
 @NgModule({
   imports: [
@@ -34,7 +40,10 @@ import { TabsModule } from "./shared/tabs/tabs.module";
     RouterModule.forRoot([...APP_ROUTES], { ...APP_EXTRA_OPTIONS }),
 
     CustomCheckboxModule,
-    TabsModule
+    TabsModule,
+    StoreModule.forRoot(reducers, { metaReducers }),
+    EffectsModule.forRoot([ AppEffects ]),
+    !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
   declarations: [
     AppComponent,
