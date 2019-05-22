@@ -1,6 +1,27 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { timer, Observable, Subscription, Subject } from 'rxjs';
-import { tap, share, takeUntil, take, debounceTime, filter, distinctUntilChanged, switchMap, delay } from 'rxjs/operators';
+import {
+  timer,
+  Observable,
+  Subscription,
+  Subject,
+  iif,
+  of,
+  interval,
+  combineLatest
+} from 'rxjs';
+import {
+  tap,
+  share,
+  takeUntil,
+  take,
+  debounceTime,
+  filter,
+  distinctUntilChanged,
+  switchMap,
+  delay,
+  startWith,
+  map
+} from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 import { Flight } from '../../entities/flight';
 import { HttpHeaders, HttpParams, HttpClient } from '@angular/common/http';
@@ -18,25 +39,42 @@ export class FlightTypeaheadComponent implements OnInit, OnDestroy {
   control = new FormControl();
   flights$: Observable<Flight[]>;
   loading: boolean;
+  online$: Observable<boolean>;
+  online: boolean;
 
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
     //this.rxjsDemo();
 
-    this.flights$	=
+    this.online$ = interval(2000)
+      .pipe(
+        startWith(0),
+        map(x => Math.random() < 0.5),
+        distinctUntilChanged(),
+        tap(x => this.online = x)
+      );
+
+    this.flights$ =
       this.control.valueChanges
         .pipe(
-          debounceTime(300),
-          filter((value: string) => value.length > 2),
+          value => combineLatest(value, this.online$),
+          filter(([value, online]) => online),
+          map (([value, online]) => value),
           distinctUntilChanged(),
-          tap(() => this.loading = true),
-          switchMap(from => this.load(from)
-            /* .pipe(
-              delay(2000)
-            ) */
-          ),
-          tap(() => this.loading = false)
+          debounceTime(300),
+          switchMap((value: string) =>
+            iif(
+              () => value.length > 2,
+              of(value)
+                .pipe(
+                  tap(() => this.loading = true),
+                  switchMap(value => this.load(value)),
+                  tap(() => this.loading = false)
+                ),
+              of([])
+            )
+          )
         );
   }
 

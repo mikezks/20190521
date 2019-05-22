@@ -5,15 +5,16 @@
 
   <div class="content">
 
-  <div class="control-group">
+    <div class="control-group">
       <label>City</label>
       <input
           [formControl]="control"
           class="form-control">
-  </div>
+    </div>
 
-  <div *ngIf="loading">Loading...</div>
-
+    <div *ngIf="loading">Loading...</div>
+    <div>Online: {{ online }}</div>
+    
   </div>
 </div>
 
