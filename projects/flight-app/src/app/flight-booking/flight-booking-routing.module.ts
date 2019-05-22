@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { FlightSearchComponent } from './flight-search/flight-search.component';
 import { FlightBookingComponent } from './flight-booking.component';
+import { FlightTypeaheadComponent } from './flight-typeahead/flight-typeahead.component';
 
 const routes: Routes = [
   {
@@ -11,6 +12,10 @@ const routes: Routes = [
       {
         path: 'flight-search',
         component: FlightSearchComponent
+      },
+      {
+        path: 'flight-typeahead',
+        component: FlightTypeaheadComponent
       }
     ]
   }
