@@ -21,6 +21,16 @@ export function reducer(state = initialState, action: FlightBookingActions): Sta
     case FlightBookingActionTypes.FlightsLoadedAction:
       return { ...state, flights: action.flights };
 
+    case FlightBookingActionTypes.FlightUpdateAction:
+      const idx = state.flights.findIndex(f => f.id === action.flight.id);
+      const newFlights = [
+        ...state.flights.slice(0, idx),
+        action.flight,
+        ...state.flights.slice(idx + 1),
+      ];
+      
+      return { ...state, flights: newFlights };
+
     default:
       return state;
   }

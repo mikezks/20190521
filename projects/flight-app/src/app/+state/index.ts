@@ -6,6 +6,7 @@ import {
   MetaReducer
 } from '@ngrx/store';
 import { environment } from '../../environments/environment';
+import { storeFreeze } from 'ngrx-store-freeze';
 import * as fromApp from './reducers/app.reducer';
 
 export interface RootState {
@@ -17,4 +18,5 @@ export const reducers: ActionReducerMap<RootState> = {
 };
 
 
-export const metaReducers: MetaReducer<RootState>[] = !environment.production ? [] : [];
+export const metaReducers: MetaReducer<RootState>[] =
+  !environment.production ? [ storeFreeze ] : [];

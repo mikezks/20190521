@@ -3,8 +3,7 @@ import { Flight } from '@flight-workspace/flight-api';
 
 export enum FlightBookingActionTypes {
   FlightsLoadedAction = '[FlightBooking] Flights loaded',
-  
-  
+  FlightUpdateAction = '[FlightBooking] Update Flight'  
 }
 
 export class FlightsLoadedAction implements Action {
@@ -12,6 +11,12 @@ export class FlightsLoadedAction implements Action {
   constructor(readonly flights: Flight[]) {}
 }
 
+export class FlightUpdateAction implements Action {
+  readonly type = FlightBookingActionTypes.FlightUpdateAction;
+  constructor(readonly flight: Flight) {}
+}
+
 
 export type FlightBookingActions = 
-  FlightsLoadedAction;
+  FlightsLoadedAction |
+  FlightUpdateAction;
