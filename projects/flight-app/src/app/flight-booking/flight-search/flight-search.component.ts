@@ -44,14 +44,18 @@ export class FlightSearchComponent implements OnInit {
     /* this.flightService
       .load(this.from, this.to, this.urgent); */
 
-    this.flightService
+    /* this.flightService
       .find(this.from, this.to)
       .subscribe(
         flights =>
           this.store.dispatch(
             new fromFlightBooking.FlightsLoadedAction(flights)
           )
-      );
+      ); */
+
+    this.store.dispatch(
+      new fromFlightBooking.FlightsLoadAction(this.from, this.to)
+    );
   }
 
   delay(): void {
