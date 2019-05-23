@@ -63,7 +63,7 @@ export class FlightSearchComponent implements OnInit {
 
     this.store
       .pipe(
-        select(state => state.flightBooking.flights),
+        select(fromFlightBooking.getFlights),
         first()
       )
       .subscribe(
